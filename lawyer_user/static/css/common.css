@@ -1,0 +1,21 @@
+:root {
+/* main pallete */
+--light-cyan: #c2f1f8;
+--dark-blue: #011223;
+--light-blue: #00597a;
+--main-blue: #0b3559;
+--medium-blue: #072c46;
+--selected: #1b8c9d;
+}
+
+.landing-div {
+  padding-inline: 7%;
+}
+
+.landing-col {
+  margin-block: 5%;
+}
+
+.landing-title {
+  color: var(--main-blue);
+}

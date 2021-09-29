@@ -1,0 +1,38 @@
+.lightFooter {
+  background-color: var(--bs-gray-100);
+  border-top: 2px solid var(--light-cyan);
+  margin-top: 50px;
+}
+
+.lightFooter .col-lg {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  padding-left: 25px
+}
+
+.lightFooter .separator {
+  border-right: 2px var(--light-cyan) solid;
+  padding-right: 0;
+}
+
+.darkFooter {
+  background-color: var(--dark-blue);
+  border-top: 2px solid var(--light-blue);
+  margin-top: 50px;
+}
+
+.darkFooter .col-lg {
+  color: var(--light-blue);
+  margin-top: 40px;
+  margin-bottom: 40px;
+  padding-left: 25px
+}
+
+.darkFooter .col-lg h3 {
+  color: white;
+}
+
+.darkFooter .separator {
+  border-right: 2px var(--light-blue) solid;
+  padding-right: 0;
+}

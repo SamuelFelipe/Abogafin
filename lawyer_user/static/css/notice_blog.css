@@ -1,0 +1,46 @@
+#mainCardimg {
+  filter: brightness(0.5);
+  height: 100%;
+  width: 100%;
+}
+
+.card-main {
+  z-index: -1;
+  margin-top: -10px;
+  color: white;
+  width: 100%;
+  height: 80vh;
+  margin-bottom: 30px;
+}
+
+#mainCardtext {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+#mainCardtext h1 {
+  padding-bottom: 5%;
+}
+
+#mainCardtext p {
+  justify-content: safe;
+}
+
+#blog_title {
+  text-transform: capitalize;
+  color: var(--light-blue);
+}
+
+.blog-content {
+  padding-inline: 10%;
+  color: #686868;
+}
+
+.vertical-line {
+  height: 2px;
+  background-color: var(--dark-blue);
+  width: 70%;
+  margin-top: 2%;
+  margin-bottom: 4%;
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial.scale=1.0">
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/common.css' %}" rel="stylesheet">
+    <link href="{% static 'css/header.css' %}" rel="stylesheet">
+    <link href="{% static 'css/footer.css' %}" rel="stylesheet">
+    <link href="{% static 'css/notice_blog.css' %}" rel="stylesheet">
+  </head>
+  <body>
+    {% include "header.html" %}
+    <div class="card card-main">
+      <img src="/static/images/dolphin.jpg" class="card-img" alt="..." id="mainCardimg">
+      <div class="card-img-overlay justify-content-center" id="mainCardtext">
+        <h1 class="card-title">Ultimas noticias en el mundo de la ley</h1>
+        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <p class="card-text">Last updated 3 mins ago</p>
+      </div>
+    </div>
+    <div class="container-fluid blog-content">
+      <h1 id="blog_title">Este blog es una plantilla.</h1>
+      <div class="vertical-line"></div>
+      <div>
+
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer volutpat vitae nisi et mattis. In hac habitasse platea dictumst. Nulla dictum sollicitudin dui, id molestie orci. Maecenas lobortis dapibus ligula, eu euismod sapien tempus ac. Sed vehicula turpis non nunc lobortis mattis. Fusce nec imperdiet tortor. Quisque eget fermentum nisi. Donec pharetra mi et elementum efficitur. Sed auctor a odio sed scelerisque. Praesent a neque sit amet felis volutpat sodales sit amet nec tellus.</p> 
+
+        <p>Integer ultricies purus in sagittis mollis. Donec pretium ornare pretium. Nunc gravida eros sit amet odio ullamcorper dictum. Phasellus luctus auctor iaculis. Phasellus in sagittis ligula, nec posuere diam. Nullam mollis euismod nunc, vel hendrerit tellus volutpat ut. Aenean congue a orci quis imperdiet. Aenean egestas leo sed maximus malesuada. Sed lobortis quis metus venenatis rhoncus. Sed et odio sit amet elit faucibus varius quis a dolor. Phasellus eu ante ipsum. Cras viverra sodales ligula et consectetur. Maecenas porta nulla et lacinia blandit. Vivamus congue dolor enim, at facilisis arcu imperdiet eget.</p> 
+
+        <p>Donec convallis lectus enim, eu faucibus lorem luctus eu. Pellentesque ornare lacus quis purus accumsan placerat. Etiam consectetur nunc a magna mollis accumsan. Vivamus mattis euismod nisl, eget porta dolor euismod sed. Donec consequat interdum fermentum. Cras id viverra dolor, eu ultrices nulla. Donec lectus felis, fermentum a urna vel, vestibulum euismod velit. In ultrices, turpis in pulvinar fringilla, elit velit tristique dui, in pharetra diam dui porttitor lectus. In feugiat lacinia blandit. Morbi quis metus rutrum, posuere magna placerat, condimentum magna. Sed sollicitudin magna eget lacus vulputate pulvinar. In hac habitasse platea dictumst. Aenean tristique efficitur ultricies. In porttitor leo vel eros sollicitudin, vitae egestas erat ultricies. Curabitur eleifend, urna a faucibus dictum, neque libero elementum nisi, sed pharetra est nisl vitae justo. Curabitur scelerisque, justo at facilisis facilisis, mi elit cursus sem, sit amet tristique turpis metus eu risus.</p>
+      </div>
+    </div>
+    {% include "footer.html" %}
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  </body>
+</html>

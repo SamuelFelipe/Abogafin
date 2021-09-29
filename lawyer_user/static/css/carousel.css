@@ -1,0 +1,12 @@
+.carousel {
+  height: 87vh;
+  margin-bottom: 30px;
+}
+
+.carousel-inner {
+  height: 100%;
+}
+
+.carousel-item {
+  height: 100%;
+}
