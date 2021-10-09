@@ -1,4 +1,4 @@
-*.swg
-__pycache__
-migrations/0*
+**/*.swg
+**/__pycache__
+**/migrations/0*
 db.sqlite3
