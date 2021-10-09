@@ -10,3 +10,10 @@ class Account(models.Model):
 
     def __str__(self):
         return self.name
+
+    def info(self):
+        return {'id': self.pk, 'name': self.name,
+                'max_postulations': self.max_postulations,
+                'max_active_cases': self.max_active_cases,
+                'price': self.price
+                }

@@ -4,22 +4,22 @@ from lawyer_user.models import *
 from .User import User
 
 
-@admin.register(User)
 class UserAdmin(DefaultUserAdmin):
     fieldsets = (
-            (None, {'fields': ('names', 'surnames', 'cel', 'tel',
-                  'doc_type', 'doc_number', 'email', 'city', 'is_active',
-                  'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+            (None, {'fields': ('first_name', 'last_name', 'cel', 'tel',
+                    'doc_type', 'doc_number', 'email', 'city', 'account_type'
+                    )}),
             )
-    list_display = ('names', 'surnames', 'email', 'verificated', 'is_staff')
+    list_display = ('names', 'surnames', 'email', 'verificated')
     search_fields = ('email', 'names', 'surnames')
     add_fieldsets = (
         (None, {
-            'classes': ('wide',),
-            'fields': ('email', 'names', 'surnames', 'cel', 'tel', 'doc_type',
-                       'doc_number', 'city', 'account_type', 'password1',
-                       'password2'),
-        }),
+                'classes': ('wide',),
+                'fields': ('email', 'first_name', 'last_name', 'cel', 'tel',
+                           'doc_type', 'doc_number', 'city', 'account_type',
+                           'password1', 'password2'),
+                }
+        ),
     )
     ordering = ('email',)
 
