@@ -20,6 +20,8 @@ from django.urls.conf import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('django.contrib.auth.urls')),
-    path('app/', include('lawyer_user.urls'))
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('app/', include('lawyer_user.urls')),
+    path('api/', include('api.urls')),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
