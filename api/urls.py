@@ -1,13 +1,18 @@
 from rest_framework import routers
-from django.urls import path
+from django.urls import path, include
 from api import views
+from rest_framework import routers
+from .routers import UserRouter
+
+
+router = UserRouter()
+router.register(r'users', views.UserViewset, basename='user')
+router.register(r'accounts', views.AccountViewset, basename='account')
 
 
 urlpatterns = [
-    path('stats', views.Stats.as_view()),
-    path('users/me', views.Selfview.as_view()),
-    path('users/<int:pk>', views.Userview.as_view()),
-    path('accounts', views.Accountsview.as_view()),
-    path('accounts/<int:pk>', views.Accountview.as_view()),
-    path('create_user', views.CreateUser.as_view()),
+    path('signin', views.CreateUser.as_view()),
+    path('', include(router.urls)),
+    path('login', views.Login.as_view()),
+    path('logout', views.Logout.as_view()),
 ]
