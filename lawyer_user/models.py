@@ -5,10 +5,20 @@ from .User import User
 
 
 class Bufete(models.Model):
-    '''Class to administrate the bufete'''
+    '''
+Class to administrate the bufete
+
+Attributes:
+    pk/id: Primary key, it's an autoincremental integer
+    name: bufete name
+    nit: 'Número de Identificación Tributaria' Colombians company identificator
+    legal_representative: User who represent the company
+    contact_email: Company contact email
+    lawyers: Many to many relation ship with all the users in the bufete
+'''
     name = models.CharField(max_length=60)
-    nit = models.CharField(max_length=30)
-    web_page = models.URLField(blank=True)
+    nit = models.CharField(max_length=30, unique=True)
+    web_page = models.URLField(blank=True, null=True)
     legal_representative = models.ForeignKey(User,
                                              on_delete=models.CASCADE,
                                              related_name='legal_representative')
@@ -19,11 +29,35 @@ class Bufete(models.Model):
         return self.name
 
     def info(self):
-        return self.name
+        return {'name': self.name, 'web_page': self.web_page,
+                'contact_email': self.contact_email,
+                'bufete_population': self.lawyers.count()}
+
+    def full_info(self):
+        return {'name': self.name, 'web_page': self.web_page,
+                'contact_email': self.contact_email,
+                'bufete_population': self.lawyers.count(),
+                'lawyers': self.lawyers_list()}
+
+    def lawyers_list(self):
+        return [user.basic_info() for user in self.lawyers.all()]
 
 
 class Lawyer(models.Model):
-    '''Class to storage the lawyers info'''
+    '''
+Class to storage the lawyers info
+
+Attributes:
+    pk/id: Primary key, it's an autoincremental integer
+    lawyer: One to one relationship with user class
+    professional_card: Lawyer professional card
+    web_page: Lawyer webpage
+    linked_in: --
+    facebook: --
+    active: By default false, after SIRNA bot checks the lawyer card
+            it could change.
+    last_pc_check = date of the last check doned by the SIRNA bot
+'''
     lawyer = models.OneToOneField(User, on_delete=models.CASCADE,
                                   primary_key=True)
     professional_card = models.CharField(max_length=20)
@@ -46,7 +80,17 @@ class Lawyer(models.Model):
 
 
 class UserCalification(models.Model):
-    '''Class to storage the users califications'''
+    '''
+Class to storage the users califications
+
+
+Attributes:
+    pk/id: Primary key, it's an autoincremental integer
+    owner: user who write it
+    score: 1 to 5 calification
+    description: --
+    target_user: --
+'''
     owner = models.ForeignKey(User, on_delete=models.CASCADE,
                               related_name='owner')
     score = models.SmallIntegerField()
