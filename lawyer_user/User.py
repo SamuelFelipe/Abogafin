@@ -127,7 +127,7 @@ Score is calculated only by the user commentaries,
 user blogs have they own score
         '''
         from .models import UserCalification
-        cals = UserCalification.objects.all().filter(target_user=self.pk)
+        cals = UserCalification.objects.all().filter(target=self.pk)
         avg = [cal.score for cal in cals]
         if len(avg):
             return sum(avg) / len(avg)

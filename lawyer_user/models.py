@@ -28,20 +28,6 @@ Attributes:
     def __str__(self):
         return self.name
 
-    def info(self):
-        return {'name': self.name, 'web_page': self.web_page,
-                'contact_email': self.contact_email,
-                'bufete_population': self.lawyers.count()}
-
-    def full_info(self):
-        return {'name': self.name, 'web_page': self.web_page,
-                'contact_email': self.contact_email,
-                'bufete_population': self.lawyers.count(),
-                'lawyers': self.lawyers_list()}
-
-    def lawyers_list(self):
-        return [user.basic_info() for user in self.lawyers.all()]
-
 
 class Lawyer(models.Model):
     '''
@@ -71,13 +57,6 @@ Attributes:
         '''call the SIRNA bot to return verify the lawyer status'''
         pass
 
-    def info(self):
-        return {'professional_card': self.professional_card,
-                'web_page': self.web_page, 'linked_in': self.linked_in,
-                'active': self.active, 'last_pc_check': self.last_pc_check,
-                'facebook': self.facebook}
-
-
 
 class UserCalification(models.Model):
     '''
@@ -95,8 +74,8 @@ Attributes:
                               related_name='owner')
     score = models.SmallIntegerField()
     description = models.CharField(max_length=225)
-    target_user = models.ForeignKey(User, on_delete=models.CASCADE,
-                                    related_name='target_user')
+    target = models.ForeignKey(User, on_delete=models.CASCADE,
+                                    related_name='comentaries')
 
 
 class BufeteCalification(models.Model):
@@ -104,7 +83,7 @@ class BufeteCalification(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     score = models.SmallIntegerField()
     description = models.CharField(max_length=225)
-    target_bufete = models.ForeignKey(Bufete, on_delete=models.CASCADE)
+    target = models.ForeignKey(Bufete, on_delete=models.CASCADE)
 
 
 class Tag(models.Model):
