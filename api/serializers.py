@@ -1,3 +1,4 @@
+from django.db import IntegrityError, models
 from django.core.exceptions import ObjectDoesNotExist
 from lawyer_user.models import *
 from lawyer_user.User import User
@@ -32,6 +33,10 @@ class UserSerializer(serializers.ModelSerializer):
                                              queryset=Bufete.objects.all(),
                                              required=False,
                                              )
+    lawyer = serializers.HyperlinkedRelatedField(view_name='lawyer',
+                                                 queryset=Lawyer.objects.all(),
+                                                 allow_null=True,
+                                                 )
 
     class Meta:
         model = User
@@ -41,11 +46,10 @@ class UserSerializer(serializers.ModelSerializer):
                   'timesub', 'score', 'publications_user_blog',
                   'lawyer', 'bellow_to',
                   'publications_lawyer_blog',
-                  'legal_representative', 'verificated',
+                  'legal_representative', 'verificated', 'password',
                   ]
         read_only_fields = ['verificated']
-        extra_kwargs = {'password': {'write_only': 'True'},}
-
+        extra_kwargs = {'password': {'write_only': True,}}
 
     def create(self, validated_data):
         passwd = validated_data.get('password')
@@ -56,8 +60,14 @@ class UserSerializer(serializers.ModelSerializer):
                                          password_validators=validators.get_default_password_validators())
         except validators.ValidationError as err:
             raise serializers.ValidationError({'password': list(err)})
-        user.save()
+        try:
+            user.save()
+        except IntegrityError:
+            raise serializers.ValidationError('Account already exist')
         return user
+
+    def update(self, instance, validated_data):
+        return super().update(instance, validated_data)
 
     def validate_account_type(self, value):
         try: # Validate if the account is valid otherwise return an error
@@ -66,19 +76,26 @@ class UserSerializer(serializers.ModelSerializer):
         except ObjectDoesNotExist:
             raise serializers.ValidationError('Account type does not exist')
 
-    def validate_email(self, value):
-        try:
-            User.objects.get(email=value)
-            raise serializers.ValidationError('Account already exist')
-        except ObjectDoesNotExist:
-            return value
+# The email must be aviable to update, for that reason this check must be done
+# in the create method, if we check it in a validate_* if the user doesn't
+# change email the function always will raise an error.
+#
+#   def validate_email(self, value):
+#       try:
+#           User.objects.get(email=value)
+#           raise serializers.ValidationError('Account already exist')
+#       except ObjectDoesNotExist:
+#           return value
 
 
-class PublicUserSerializer(serializers.ModelField):
+
+class PublicUserSerializer(serializers.ModelSerializer):
 
     account_type = serializers.SlugRelatedField(slug_field='name',
                                                 read_only=True,
                                                 )
+    lawyer = serializers.HyperlinkedRelatedField(view_name='lawyer',
+                                                 queryset=Lawyer.objects.all())
 
     class Meta:
         model = User
@@ -99,4 +116,40 @@ class AccountSerializer(serializers.ModelSerializer):
         fields = ['name', 'max_postulations', 'max_active_cases',
                   'price', 'users',
                   ]
-        extra_kwargs = {'url': {'lookup_field': 'name'}}
+
+
+class UserCalificationSerializer(serializers.ModelSerializer):
+
+    owner = serializers.HyperlinkedRelatedField(view_name='user-detail',
+                                                lookup_field='email',
+                                                read_only=True)
+    target = serializers.HyperlinkedRelatedField(view_name='user-detail',
+                                                 lookup_field='email',
+                                                 read_only=True)
+
+    class Meta:
+        model = UserCalification
+        fields = '__all__'
+
+    def create(self, validated_data):
+        return UserCalification(**validated_data)
+
+    def update(self, instance, validated_data):
+        return super().update(instance, validated_data)
+
+    def validate_score(self, value):
+        if value > 5.0 or value < 0.0:
+            raise serializers.ValidationError('score is a float between 0 and 5')
+        return value
+
+    def validate_description(self, value):
+        if len(value) < 15:
+            raise serializers.ValidationError('Description must have aleast 15 characters')
+        return value
+
+
+class BufeteSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Bufete
+        fields = '__all__'

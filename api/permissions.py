@@ -13,3 +13,11 @@ class Cookies(permissions.BasePermission):
             return True
         except ObjectDoesNotExist:
             return False
+
+
+class OwnerOrOnlyRead(Cookies):
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return obj.owner.id == request.session['id']
