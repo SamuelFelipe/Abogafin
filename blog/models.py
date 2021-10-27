@@ -17,12 +17,22 @@ class BlogPost(models.Model):
     type = models.CharField(max_length=2, choices=types)
     tags = models.ManyToManyField(Tag)
 
+    def score(self):
+        amount = self.califications.count()
+        likes = self.califications.filter(like=True).count()
+        if not amount or not likes:
+            return 0
+        return (likes / amount) * 100
+
 
 class BlogCalification(models.Model):
     owner = models.ForeignKey(User, on_delete=models.SET_NULL,
                                  null=True)
-    blog = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
+    blog = models.ForeignKey(BlogPost, on_delete=models.CASCADE, related_name='califications')
     like = models.BooleanField(default=True)
+
+    class Meta:
+        unique_together = ('owner', 'blog')
 
 
 class BlogComment(models.Model):
