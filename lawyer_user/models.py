@@ -25,8 +25,12 @@ Attributes:
     contact_email = models.EmailField()
     lawyers = models.ManyToManyField(User, related_name='bellow_to')
 
-    def __str__(self):
-        return self.name
+    def score(self):
+        cals = BufeteCalification.objects.all().filter(target=self.pk)
+        avg = [cal.score for cal in cals]
+        if len(avg):
+            return sum(avg) / len(avg)
+        return None
 
 
 class Lawyer(models.Model):
@@ -94,7 +98,8 @@ class Tag(models.Model):
 
 class Case(models.Model):
     '''This class will be storage the cases information'''
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
     description = models.CharField(max_length=2500)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
@@ -111,5 +116,6 @@ class Case(models.Model):
 class Interested(models.Model):
     '''Represent the relation bettwen the layers/bufetes and the cases'''
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    bufete = models.ForeignKey(Bufete, on_delete=models.CASCADE)
-    case = models.ForeignKey(Case, on_delete=models.CASCADE)
+    bufete = models.ForeignKey(Bufete, on_delete=models.CASCADE, null=True)
+    case = models.ForeignKey(Case, on_delete=models.CASCADE,
+                             related_name='interested')
